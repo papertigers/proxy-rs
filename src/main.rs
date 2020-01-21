@@ -13,7 +13,7 @@ use proxy::Proxy;
 #[async_std::main]
 async fn main() -> io::Result<()> {
     let opt = cli::execute();
-    let remote = opt.remote.clone();
+    let remote = opt.remote;
     let listener = TcpListener::bind(opt.listen).await?;
     log(format!("Proxy listening on: {}", opt.listen));
     let mut incoming = listener.incoming();
