@@ -63,7 +63,8 @@ impl Proxy {
                     if sending {
                         self.sent_bytes.fetch_add(nbytes as u64, Ordering::SeqCst);
                     } else {
-                        self.received_bytes.fetch_add(nbytes as u64, Ordering::SeqCst);
+                        self.received_bytes
+                            .fetch_add(nbytes as u64, Ordering::SeqCst);
                     }
                 }
                 Err(e) => return Err(e),
