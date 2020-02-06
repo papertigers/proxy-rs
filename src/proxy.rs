@@ -5,11 +5,13 @@ use async_std::net::{SocketAddr, TcpStream};
 use async_std::prelude::*;
 use std::sync::atomic::AtomicU64;
 use std::sync::atomic::Ordering;
+use std::time::Instant;
 
 pub struct Proxy {
     stream: TcpStream,
     received_bytes: AtomicU64,
     sent_bytes: AtomicU64,
+    start: Instant,
 }
 
 impl Proxy {
@@ -19,6 +21,7 @@ impl Proxy {
             stream,
             received_bytes: AtomicU64::new(0),
             sent_bytes: AtomicU64::new(0),
+            start: Instant::now(),
         }
     }
 
@@ -75,9 +78,10 @@ impl Proxy {
     /// Return prettified string of the `Proxy`'s stats
     fn stats(&self) -> String {
         format!(
-            "sent: {} received: {}",
+            "sent: {} received: {} ({})",
             pretty_bytes(self.sent_bytes.load(Ordering::SeqCst)),
-            pretty_bytes(self.received_bytes.load(Ordering::SeqCst))
+            pretty_bytes(self.received_bytes.load(Ordering::SeqCst)),
+            duration_delta(self.start)
         )
     }
 }
