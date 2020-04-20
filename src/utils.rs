@@ -44,7 +44,7 @@ pub fn duration_delta(i: Instant) -> String {
     let (days, ms) = div_rem(ms, 86_400_000);
     let (hours, ms) = div_rem(ms, 3_600_000);
     let (minutes, ms) = div_rem(ms, 60_000);
-    let seconds = ms as f64 / 1000f64;
+    let seconds = ms as f32 / 1000f32;
     if days > 0 {
         format!("{}d{}h{}m{:.1}s", days, hours, minutes, seconds)
     } else if hours > 0 {
