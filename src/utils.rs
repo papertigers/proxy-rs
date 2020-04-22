@@ -1,4 +1,5 @@
 use chrono::prelude::*;
+use std::ops::{Div, Rem};
 use std::time::Instant;
 
 const DEFAULT_UNIT: f64 = 1024_f64;
@@ -28,8 +29,11 @@ pub fn log<S: AsRef<str>>(message: S) {
     );
 }
 
-/// Return the quotient and remainder between two u128s.
-fn div_rem(lhs: u128, rhs: u128) -> (u128, u128) {
+/// Return the quotient and remainder between two T's.
+fn div_rem<T>(lhs: T, rhs: T) -> (T, T)
+where
+    T: Div<Output = T> + Rem<Output = T> + Copy,
+{
     (lhs / rhs, lhs % rhs)
 }
 
